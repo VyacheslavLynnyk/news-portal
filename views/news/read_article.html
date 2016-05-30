@@ -1,0 +1,19 @@
+<article>
+    <div class="page-header">
+
+        <h2 class="text-center"> <?= $this->data['news']->article ?></h2>
+        <h5>Рубрика:
+            <a href="<?= REL_URL . '/news/read-category/'.$this->data['category']->id ?>">
+                <?= $this->data['category']->name ?>
+            </a>
+        </h5>
+        <!--    CARUSELL -->
+    </div>
+
+    <div>
+        <?php if ($this->data['images'] != null) :?>
+            <img src="<?= REL_URL . $this->data['images'] ?>" class="pull-left img--left"/>
+        <?php endif ?>
+            <?= $this->data['news']->text ?>
+    </div>
+</article>

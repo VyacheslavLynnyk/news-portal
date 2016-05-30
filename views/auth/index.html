@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Adventure</title>
+    <title><?=Config::get('site_name')?></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?=REL_URL?>/css/normalize.css">
+    <link rel="stylesheet" href="<?=REL_URL?>/css/adds-css.css">
+</head>
+<body>
+
+<?php if (Session::hasFlash()) : ?>
+    <div class="alert-window">
+        <?= Session::flash() ?>
+    </div>
+<?php endif ?>
+
+    <div id="registration">
+        <form action="<?= REL_URL . '/auth/index' ?>" method="POST">
+            <h1>Добро пожаловать в Test Adventure</h1>
+            <input type="text" name="login" required placeholder="login">
+            <input type="password" name="pass" required placeholder="password">
+            <input type="submit" value="GO!" name="go"><br>
+            <p><input id="register" type="checkbox" value="registration" name="registration">
+                <label for="register">Зарегестрироваться</label>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

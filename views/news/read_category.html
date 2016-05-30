@@ -1,0 +1,27 @@
+<article>
+    <div class="page-header">
+
+        <h2>Рубрика: <?= $this->data['category'] ?>
+        </h2>
+        <!--    CARUSELL -->
+    </div>
+
+
+    <div id="by-category" class="row">
+        <?php foreach ( $this->data['news'] as $article): ?>
+            <div class="col-lg-6">
+                <section class="items">
+                    <h2><a href="<?= REL_URL . '/news/read-article/' . $article->id ?>"><?= $article->article ?></a></h2>
+                    <p>
+                        <?= substr($article->text, 0 , 120) ?>
+                        <br><sup>Теги: (<a href=""><?= $article->tag_name ?></a>)</sup>
+                    </p>
+                </section>
+            </div>
+        <?php endforeach ?>
+
+    </div>
+
+
+
+</article>

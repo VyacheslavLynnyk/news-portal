@@ -1,0 +1,63 @@
+<div class="jumbotron">
+<!--    CARUSELL -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <?php if (isset($this->data['count_images'])) : ?>
+                <?php for ($num_image = 0; $num_image < $this->data['count_images']; $num_image++) :?>
+                <li data-target="#myCarousel" data-slide-to="<?= $num_image ?>"
+                    <?= ($num_image == 0) ? 'class="active"' : '' ?> >
+                </li>
+                <?php endfor; ?>
+            <?php endif ?>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <?php foreach ($this->data['images'] as $img_num => $imageObj) : ?>
+            <div class="item  <?= ($img_num == 0) ? ' active' : '' ?> >">
+                <img src="<?= REL_URL . $imageObj->path ?>" alt="image_<?= $imageObj->id?>">
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+<!-- END CARUSELL-->
+<?php if (Session::hasFlash() != false) : ?>
+    <div class="alert alert-danger" onclick="$(this).hide();"> <?php Session::flash(); ?></div>
+<?php endif; ?>
+
+<div id="news" class="row marketing">
+    <?php foreach ($this->data['categories'] as $category_id => $category) : ?>
+        <div class="col-lg-6">
+            <section class="items">
+                <h2>
+                    <a href="<?= REL_URL . '/news/read-category/' . $category_id ?>"><?= $category ?></a>
+                </h2>
+                <ol>
+                <?php foreach ($this->data['news'] as $articleObj) : ?>
+                    <?php if ($articleObj->category_id != $category_id) continue ?>
+                    <li class="item-title">
+                        <a href="<?= REL_URL . '/news/read-article/' . $articleObj->id ?>" target="_blank" rel="nofollow">
+                            <?= $articleObj->article ?>
+                        </a><br><sup>Теги: (<a href=""><?= $articleObj->tag_name ?></a>)</sup>
+                    </li>
+                <?php endforeach ?>
+                </ol>
+            </section>
+        </div>
+    <?php endforeach ?>
+
+
+</div>
