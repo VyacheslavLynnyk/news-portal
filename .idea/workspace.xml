@@ -86,9 +86,13 @@
       <file leaf-file-name="main-js.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webroot/js/main-js.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
-              <folding />
+            <state relative-caret-position="76">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="13" selection-end-column="44" />
+              <folding>
+                <marker date="1464633021061" expanded="true" signature="88:266" placeholder="{...}" />
+                <marker date="1464633021061" expanded="true" signature="125:253" placeholder="{...}" />
+                <marker date="1464633021061" expanded="true" signature="176:236" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -163,7 +167,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="49" />
+    <option name="x" value="-1631" />
     <option name="y" value="-4" />
     <option name="width" value="1631" />
     <option name="height" value="1054" />
@@ -370,15 +374,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1464598058420</updated>
-      <workItem from="1464598059970" duration="34506000" />
+      <workItem from="1464598059970" duration="34834000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34506000" />
+    <option name="totallyTimeSpent" value="34834000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="-4" width="1631" height="1054" extended-state="6" />
+    <frame x="-1631" y="-4" width="1631" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.252678" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -703,9 +707,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webroot/js/main-js.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="76">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="13" selection-end-column="44" />
+          <folding>
+            <marker date="1464633021061" expanded="true" signature="88:266" placeholder="{...}" />
+            <marker date="1464633021061" expanded="true" signature="125:253" placeholder="{...}" />
+            <marker date="1464633021061" expanded="true" signature="176:236" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
