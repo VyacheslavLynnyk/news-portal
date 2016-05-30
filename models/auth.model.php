@@ -22,7 +22,7 @@ class Auth extends Model
         if (isset(self::$user) || isset($_COOKIE['user']) || isset($loginPost)) {
             $login = isset($_COOKIE['user']) ? $_COOKIE['user'] : $loginPost;
             self::$user = !isset(self::$user) ? Users::find_by_login_mail($login) : self::$user;
-            return self::$user->role;
+            return (isset(self::$user)) ? self::$user->role : false;
         }
 
         return false;

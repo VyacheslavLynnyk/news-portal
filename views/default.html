@@ -30,9 +30,9 @@
             <nav class="blog-nav">
                 <?=Html::a_is_active('news', 'News',['blog-nav-item'])?>
                     <?php $user = Auth::getLogin(); ?>
-                    <?php $role = Auth::getRole(); ?>
 
                     <?php if ($user != null) {
+                        $role = Auth::getRole();
                         if (isset($role) && $role == 'admin') {
                             echo Html::a_is_active('manager', 'Manager', ['blog-nav-item']);
                         }
