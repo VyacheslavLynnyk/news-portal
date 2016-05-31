@@ -9,7 +9,7 @@ class Images extends Model
 
     protected static $height = 400;
 
-    public static function catch($input_name, $avaPath)
+    public static function catchFile($input_name, $avaPath)
     {
         if (!empty($_FILES[$input_name]) and $_FILES[$input_name]['error'] == 0) {
             $max_size = 15000000; // 15 mb  */

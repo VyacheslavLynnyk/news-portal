@@ -16,7 +16,7 @@ h1, h2, h3, p {
     width:300px;
     text-align: center;
     opacity: 0;
-    animation: alert-action 4s 1;
+    /*animation: alert-action 4s 1;*/
 }
 
 @-webkit-keyframes alert-action {

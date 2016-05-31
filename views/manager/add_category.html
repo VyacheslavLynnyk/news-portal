@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="text-center">Менеждер новостей</h1>
     <?php if (Session::hasFlash() != false) : ?>
-        <div class="alert alert-danger">Session::flash(); </div>
+        <div class="alert alert-danger" onclick="$(this).hide();"> <?php Session::flash(); ?></div>
     <?php endif; ?>
     <div class="row">
         <h3 class="page-header">Здесь вы можете добавить статью:</h3>
