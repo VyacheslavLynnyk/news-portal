@@ -63,10 +63,10 @@ class ManagerController extends Controller
                 } else {
                     // Get, crop and save out image
                     $save_path = ROOT . '/webroot/images/articles/'.md5($newsModel->category_id);
-                    if ($avatar = Images::catch('article-images', $save_path)) {
+                    if ($avatar = Images::catchFile('article-images', $save_path)) {
                         $avatar_ext = pathinfo($avatar, PATHINFO_EXTENSION);
                         $save_path .= '.' . $avatar_ext;
-                        $save_url =  str_replace(ROOT.DS.'webroot', '', $save_path);
+                        $save_url =  str_replace(ROOT . '/webroot', '', $save_path);
                         Images::crop_to_fit($avatar, $save_path, 960, 600);
                         $image = new Images;
 

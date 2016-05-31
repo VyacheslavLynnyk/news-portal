@@ -1,4 +1,7 @@
 
+window.onbeforeunload = function() {
+        return "Hey, you're leaving the site. Bye!";
+};
 
 $(function() {
 
