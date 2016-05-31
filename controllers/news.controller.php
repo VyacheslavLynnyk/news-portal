@@ -9,7 +9,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = News::find('all', ['limit' => 5]);
+        $news = News::all(['order' => 'id desc']);
         $categories = Categories::find('all');
         foreach ($categories as $key => $category) {
             $categoriesArr[$category->id] = $category->name;

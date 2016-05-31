@@ -46,13 +46,16 @@
                     <a href="<?= REL_URL . '/news/read-category/' . $category_id ?>"><?= $category ?></a>
                 </h2>
                 <ol>
+                <?php $article_conter = 1; ?>
                 <?php foreach ($this->data['news'] as $articleObj) : ?>
                     <?php if ($articleObj->category_id != $category_id) continue ?>
+
                     <li class="item-title">
                         <a href="<?= REL_URL . '/news/read-article/' . $articleObj->id ?>" target="_blank" rel="nofollow">
                             <?= $articleObj->article ?>
                         </a><br><sup>Теги: (<a href=""><?= $articleObj->tag_name ?></a>)</sup>
                     </li>
+                    <?php if (++$article_conter > 5) break; ?>
                 <?php endforeach ?>
                 </ol>
             </section>

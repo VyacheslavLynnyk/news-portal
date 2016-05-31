@@ -1,13 +1,10 @@
 <?php
 class Images extends Model
 {
-    public static $expected_width = 400;
+    protected static $expected_width = 960;
 
-    public static $expected_height = 400;
+    protected static $expected_height = 400;
 
-    protected static $width = 400;
-
-    protected static $height = 400;
 
     public static function catchFile($input_name, $avaPath)
     {
@@ -25,12 +22,16 @@ class Images extends Model
                         $avaPathExt = $avaPath . '_tmp.' . $ext;
                         if (move_uploaded_file($_FILES[$input_name]['tmp_name'], $avaPathExt)) {
                             //if Image less than 400px
-                            if ($width < self::$expected_width || $height < self::$expected_height) {
-                                self::$width = $width;
-                                self::$height = $height;
+                            if ($width > $height) {
+                                self::$expected_width = ($height * self::$expected_height/ $width);
+                            } else {
+                                self::$expected_height = ($height * self::$expected_width/ $width);
+                        }
+                            if ($width < self::$expected_width && $height < self::$expected_height) {
+                                self::$expected_width = $width;
+                                self::$expected_height = $height;
                             }
                             return $avaPathExt;
-                            //$avaPath .= '.jpg';
                         }
                     }
                 }
@@ -38,13 +39,23 @@ class Images extends Model
         }
         return false;
     }
+    
+    public function setWidth($w)
+    {
+        self::$expected_width = $w;
+    }
+    
+    public function setHeight($h)
+    {
+        self::$expected_height = $h;
+    }
 
     public static function crop_to_fit($sourcePath, $destPath){
         /*
          * Add file validation code here
          */
-        $destSizeW = self::$width;
-        $destSizeH = self::$height;
+        $destSizeW = self::$expected_width;
+        $destSizeH = self::$expected_height;
 
         list($sourceWidth, $sourceHeight, $source_type) = getimagesize($sourcePath);
 
