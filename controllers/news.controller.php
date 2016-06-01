@@ -11,12 +11,17 @@ class NewsController extends Controller
     {
         $news = News::all(['order' => 'id desc']);
         $categories = Categories::find('all');
+
+        // return array = [article_id, tag_name]
+        $tagCombine = Tag_Combine::allTagNamed();
         foreach ($categories as $key => $category) {
             $categoriesArr[$category->id] = $category->name;
         }
 
         $this->data['news'] = $news;
         $this->data['categories'] = $categoriesArr;
+        $this->data['tag_combine'] = $tagCombine;
+
         $this->data['images'] = Images::all(['limit' => 5, 'order' => 'id desc']);
         $this->data['image_count'] = count($this->data['images']);
 
@@ -68,10 +73,25 @@ class NewsController extends Controller
 //        $this->data['images'] = (isset($images)) ? $images->path : null;
     }
 
+    public function search_by_tag_id()
+    {
+        $params = App::getRouter()->getParams();
+        if (!isset($params[0]) or (int)$params[0] != $params[0]) {
+            Router::redirect('news/index');
+        }
 
-    //1
+        $tag_id = (int)$params[0];
 
+        $tag_combine = Tag_Combine::find_all_by_tag_id($tag_id);
+        $this->data['article'] = [];
+        foreach ($tag_combine as $article_tag) {
+            $this->data['news'][] = News::find_by_id($article_tag->article_id);
+        }
+        $this->data['tag_name'] = Tags::find_by_id($tag_id)->tag_name;
 
+        $this->data['images'] = Images::all(['limit' => 5, 'order' => 'id desc']);
+        $this->data['image_count'] = count($this->data['images']);
+    }
 
 
 }

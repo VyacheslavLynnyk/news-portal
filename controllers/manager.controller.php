@@ -53,7 +53,7 @@ class ManagerController extends Controller
                 $newsModel = new News();
                 $newsModel->article = htmlspecialchars_decode(trim($_POST['article_name']));
                 $newsModel->category_id = isset($categoryModel->id) ? $categoryModel->id : (int)$_POST['set_category'];
-                $newsModel->tag_name = isset($_POST['tags']) ? htmlspecialchars_decode(trim($_POST['tags'])) : 'none';
+
                 $newsModel->text = isset($_POST['text']) ? htmlspecialchars_decode(trim($_POST['text'])) : 'none';
                 $newsModel->create = date('Y-M-D H:i:s');
 
@@ -61,6 +61,27 @@ class ManagerController extends Controller
                 if ($newsModel->save() == false) {
                     Session::setFlash('Ошибка при создании теста!');
                 } else {
+                    // Save out tags
+                    if (isset($_POST['tags'])) {
+                        $tags_name = htmlspecialchars_decode(trim($_POST['tags']));
+                        $tags_array = explode(';', $tags_name);
+                        foreach ($tags_array as $tag) {
+                            $tag = trim($tag);
+                            if ($tagsModel = Tags::find_by_tag_name($tag)) {
+                            } else {
+                                $tagsModel = new Tags();
+                            }
+
+                            $tagsModel->tag_name = $tag;
+                            $tagsModel->save();
+
+                            $tagsCombine = new Tag_Combine();
+                            $tagsCombine->article_id = $newsModel->id;
+                            $tagsCombine->tag_id = $tagsModel->id;
+                            $tagsCombine->save();
+                        }
+                    }
+
                     // Get, crop and save out image
                     $save_path = ROOT . '/webroot/images/articles/'.md5($newsModel->id);
                     if ($avatar = Images::catchFile('article-images', $save_path)) {
@@ -85,148 +106,4 @@ class ManagerController extends Controller
 
     }
 
-
-
-
-
-    public function admin_save_test()
-    {
-        
-
-
-    }
-
-    public function admin_edit_test()
-    {
-        $params = App::getRouter()->getParams();
-        if (sizeof($params) > 0) {
-            $this->data['params'] = implode('/', $params);
-
-            $testModel = Tests::find_by_id($params[0]);
-
-            if (isset($_POST['test_name']) && $_POST['test_name'] != null) {
-                $testModel->test = htmlspecialchars_decode(trim($_POST['test_name']));
-                $testModel->save();
-            }
-            $this->data['test_name'] = $testModel->test;
-            // Get all questions
-            if (!isset($params[1])) {
-                $this->data['questions'] = Questions::find_all_by_test_id($testModel->id);
-            }
-            if (isset($params[1]) && (int) $params[1] !== null) {
-                if (isset($_POST['question']) && $_POST['question'] != null && $_POST['answer'][0] != null) {
-                    $test_id = $params[0];
-                    $question = htmlspecialchars_decode(trim($_POST['question']));
-                    $question_id = $params[1];
-                    $answers_true = (array) $_POST['answer_true'];
-                    $answers = (array) $_POST['answer'];
-
-                    $this->app_save_test($test_id, $answers, $answers_true, $question, $question_id);
-                }
-
-                $this->data['current_question'] = Questions::find_by_id($params[1]);
-                $this->data['answers'] = Answers::find_all_by_question_id($params[1]);
-            }
-        } else {
-            Router::redirect('manager/index');
-        }
-
-    }
-
-    public function admin_delete_test()
-    {
-        $params = App::getRouter()->getParams();
-        if (sizeof($params) == 1 ) {
-            if (isset($params[0]) && is_numeric($params[0])) {
-                $test = Tests::find_by_id($params[0]);
-                $test->delete();
-            }
-        } elseif (sizeof($params) >= 2 ) {
-            if (isset($params[0]) && is_numeric($params[0]) &&
-                isset($params[1]) && is_numeric($params[1])) {
-                //remove answers
-                $answerModelArr = Answers::find_all_by_question_id($params[1]);
-                foreach ($answerModelArr as $answerModel) {
-                    $answerModel->delete();
-                }
-                //remove questions
-                $question = Questions::find_by_id($params[1]);
-                $question->delete();
-            }
-        }
-        Router::redirect('manager/index');
-    }
-
-    public function admin_delete_language()
-    {
-        $params = App::getRouter()->getParams();
-        if (sizeof($params) >= 1 ) {
-            if (isset($params[0]) && is_numeric($params[0])
-                && is_numeric($params[0]) && is_numeric($params[0])) {
-                $language = Languages::find_by_id($params[0]);
-                $language->delete();
-            }
-        }
-        Router::redirect('manager/index');
-    }
-
-
-    /**
-     * @param $test_id
-     * @param $answers
-     * @param $answers_true
-     * @param $question
-     * @param null $question_id
-     * @return bool
-     */
-    protected function app_save_test($test_id, $answers, $answers_true, $question, $question_id = null)
-    {
-        if ($question_id != null) {
-            $questionModel = Questions::find_by_id($question_id);
-            //remove old answers
-            $answerModelArr = Answers::find_all_by_question_id($question_id);
-            foreach ($answerModelArr as $answerModel) {
-                $answerModel->delete();
-            }
-        } else {
-            $questionModel = new Questions();
-        }
-
-        $questionModel->question = $question;
-        $questionModel->test_id = $test_id;
-        $questionModel->save();
-
-        foreach ( $answers as $key => $answer) {
-            if ($answer == null) {
-                continue;
-            }
-            $answerModel = new Answers();
-            $answerModel->answer = htmlspecialchars_decode(trim($answer));
-            $answerModel->is_true = (in_array($key, $answers_true)) ? $key : null;
-            $answerModel->question_id = $questionModel->id;
-            $answerModel->save();
-        }
-    }
-
-
-    public function admin_edit_language()
-    {
-        $params = App::getRouter()->getParams();
-
-        if (sizeof($params) > 0) {
-            $this->data['params'] = implode('/', $params);
-
-            $languageModel = Languages::find_by_id($params[0]);
-
-            if (isset($_POST['language_name']) && $_POST['language_name'] != null) {
-                $languageModel->language = htmlspecialchars_decode(trim($_POST['language_name']));
-                $languageModel->save();
-            }
-            $this->data['language_name'] = $languageModel->language;
-        }else {
-        Router::redirect('manager/index');
-    }
-
-        $this->app_test_menu();
-    }
 }
