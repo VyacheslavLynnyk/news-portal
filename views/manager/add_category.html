@@ -1,3 +1,5 @@
+<script src="//cdn.ckeditor.com/4.5.9/basic/ckeditor.js"></script>
+
 <div class="container">
     <h1 class="text-center">Менеждер новостей</h1>
     <?php if (Session::hasFlash() != false) : ?>
@@ -49,7 +51,9 @@
                         </div>
 
                         <textarea class="form-control" rows="3" name="text" required = "required"></textarea>
-
+                        <script>
+                            CKEDITOR.replace( 'text' );
+                        </script>
                     </div>
 
                 <div class="panel-heading">
