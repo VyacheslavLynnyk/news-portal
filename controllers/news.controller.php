@@ -45,7 +45,7 @@ class NewsController extends Controller
         if (!isset($params[0]) or (int)$params[0] != $params[0]) {
             Router::redirect('news/index');
         }
-
+        
         $id = (int)$params[0];
         $news = News::find_by_id($id);
         if (isset($news->is_analytic) && $news->is_analytic == 1) {
@@ -103,6 +103,50 @@ class NewsController extends Controller
 
         $this->data['images'] = Images::all(['limit' => 5, 'order' => 'id desc']);
         $this->data['image_count'] = count($this->data['images']);
+    }
+
+    public function search_by_tags_id()
+    {
+        $params = App::getRouter()->getParams();
+        if (!isset($params[0]) or (int)$params[0] != $params[0]) {
+            Router::redirect('news/index');
+        }
+        // without views/default.html layout
+        $this->setNoLayout(1);
+
+        if ($tag_combine = Tag_Combine::find_all_by_tag_id($params)) {
+            $this->data['article'] = [];
+            foreach ($tag_combine as $article_tag) {
+                $this->data['news'][$article_tag->article_id] = News::find_by_id($article_tag->article_id);
+            }
+//            foreach ($params as $tag_id) {
+//                $this->data['tag_name'][$tag_id] = Tags::find_by_id($tag_id)->tag_name;
+//            }
+//            $this->data['images'] = Images::all(['limit' => 5, 'order' => 'id desc']);
+//            $this->data['image_count'] = count($this->data['images']);
+        } else {
+            Router::redirect('news/index');
+        }
+    }
+
+    public function search_by_tag_name()
+    {
+        $this->setNoLayout(1);
+        $params = App::getRouter()->getParams();
+        if (!isset($params[0]) or (int)$params[0] != $params[0]) {
+            exit;
+            Router::redirect('news/index');
+        }
+        $tag_name = trim(strip_tags($params[0]));
+        $text = '';
+        if ($tagModel = Tags::find('all', array('conditions' => "tag_name LIKE '%".$tag_name."%'"))) {
+            foreach ($tagModel as $tag) {
+                $arr[$tag->id] = $tag->tag_name;
+            }
+            $text = json_encode($arr);
+        }
+        echo $text;
+        exit;
     }
 
 

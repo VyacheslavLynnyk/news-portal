@@ -11,8 +11,17 @@
     <link rel="stylesheet" href="<?=REL_URL?>/css/main.css">
     <link rel="stylesheet" href="<?=REL_URL?>/css/adds-css.css">
     <link rel="stylesheet" href="<?=REL_URL?>/css/pagination.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+    <script src="<?=REL_URL?>/js/jquery.min.js"></script>
+    <script src="<?=REL_URL?>/js/jquery-ui.min.js"></script>
+<!--    <script src="--><?//=REL_URL?><!--/js/jquery.simplemodal.js"></script>-->
+<!--    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+
     <script src="<?=REL_URL?>/js/ie8-responsive-file-warning.js"></script>
     <![endif]-->
     <script src="<?=REL_URL?>/js/ie-emulation-modes-warning.js"></script>
@@ -23,26 +32,26 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="<?=REL_URL?>/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="<?=REL_URL?>/js/jquery.simplemodal.js"></script>
-    <script type="text/javascript" src="<?=REL_URL?>/js/init.js"></script>
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="<?=REL_URL?>/js/jquery.min.js"></script>
+
+    <script src="<?=REL_URL?>/js/init.js"></script>
+    <script src="<?=REL_URL?>/js/ie10-viewport-bug-workaround.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="<?=REL_URL?>/js/bootstrap-treeview.min.js"></script>
     <script src="<?=REL_URL?>/js/main-js.js"></script>
     <script src="<?=REL_URL?>/js/load-avatar.js"></script>
+
 </head>
+
 <body>
     <div class="blog-masthead">
         <div class="container">
             <nav class="blog-nav">
                 <?=Html::a_is_active('news', 'News',['blog-nav-item'])?>
 
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
+                <div class="navbar-form navbar-right">
+                    <input type="text" class="form-control searcher" placeholder="Search...">
+                </div>
+
                     <?php $user = Auth::getLogin(); ?>
 
                     <?php if ($user != null) {
@@ -82,13 +91,47 @@
     </form>
 </div>
 
-    <div class="container">
+    <div id="news-content" class="container">
         <?= $data['content'] ?>
     </div>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+    <script>
+
+        $("input.searcher").autocomplete({
+            delay: 400,
+            source: function (request, response) {
+
+                $.get("<?= REL_URL.'/news/search-by-tag-name/'?>" + request.term,
+                    function (data) {
+                        var content = $("#news-content");
+                        if (data == '') {
+                            var content = $("#news-content");
+                            content.empty();
+                            content.prepend('<h2> Не найдено результатов по запросу </h2>');
+                            return 0;
+                        }
+                        var getData = $.parseJSON(data);
+                        var tags = '';
+                        $.each( getData, function( tagId, value ) {
+                            tags += "/" + tagId;
+                        });
+
+                        $.get("<?= REL_URL.'/news/search-by-tags-id'?>" + tags,
+                            function (data) {
+                                content.empty();
+                                content.prepend(data);
+
+                            });
+                       response(getData);
+                });
+            }
+        });
 
 
 
+
+
+
+    </script>
 </body>
 </html>

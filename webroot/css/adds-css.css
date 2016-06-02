@@ -115,3 +115,7 @@ h1, h2, h3, p {
     width:30%;
     margin: 10px 15px 10px 10px;
 }
+
+.blog-masthead {
+    margin-bottom: 20px;
+}
