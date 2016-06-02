@@ -19,17 +19,28 @@ class NewsController extends Controller
         }
 
         $this->data['news'] = $news;
+
         $this->data['categories'] = $categoriesArr;
         $this->data['tag_combine'] = $tagCombine;
 
         $this->data['images'] = Images::all(['limit' => 5, 'order' => 'id desc']);
         $this->data['image_count'] = count($this->data['images']);
 
+        // add analytic_news data
+        $this->read_analytic();
 
+    }
+
+    public function read_analytic()
+    {
+        $analytic_news = News::find_all_by_is_analytic('1');
+        $this->data['analytic_news'] = $analytic_news;
     }
 
     public function read_article()
     {
+
+
         $params = App::getRouter()->getParams();
         if (!isset($params[0]) or (int)$params[0] != $params[0]) {
             Router::redirect('news/index');
@@ -37,6 +48,16 @@ class NewsController extends Controller
 
         $id = (int)$params[0];
         $news = News::find_by_id($id);
+        if (isset($news->is_analytic) && $news->is_analytic == 1) {
+            // FOR Authorized users ONLY
+            if (Auth::checkLoginActive() == false) {
+                Session::setFlash('<a class="text-center" href="'.REL_URL. '/auth/index/' . '">Зарегестрируйтесь пожалуйста </a>');
+                $this->index();
+                return 'news/index';
+                exit;
+                //Router::redirect('auth/index');
+            }
+        }
         $category = Categories::find_by_id($news->category_id);
         $images = Images::find_by_news_id($id); // Get only 1 image
 
@@ -47,15 +68,6 @@ class NewsController extends Controller
 
     public function read_category()
     {
-
-        // FOR ADMINs ONLY
-        if (Auth::checkLoginActive() == false) {
-            Session::setFlash('<a class="text-center" href="'.REL_URL. '/auth/index/' . '">Зарегестрируйтесь пожалуйста </a>');
-            $this->index();
-            return 'news/index';
-            exit;
-            //Router::redirect('auth/index');
-        }
 
         $params = App::getRouter()->getParams();
         if (!isset($params[0]) or (int)$params[0] != $params[0]) {

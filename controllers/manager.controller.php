@@ -53,7 +53,9 @@ class ManagerController extends Controller
                 $newsModel = new News();
                 $newsModel->article = htmlspecialchars_decode(trim($_POST['article_name']));
                 $newsModel->category_id = isset($categoryModel->id) ? $categoryModel->id : (int)$_POST['set_category'];
-
+                if (isset($_POST['analytic']) && (int) $_POST['analytic'] == 1) {
+                    $newsModel->is_analytic = 1;
+                }
                 $newsModel->text = isset($_POST['text']) ? htmlspecialchars_decode(trim($_POST['text'])) : 'none';
                 $newsModel->create = date('Y-M-D H:i:s');
 

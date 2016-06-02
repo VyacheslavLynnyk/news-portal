@@ -39,6 +39,40 @@
 <?php endif; ?>
 
 <div id="news" class="row marketing">
+<!--    Analytic news-->
+    <section class="items bg-info container">
+        <h2>
+            <a href="<?= REL_URL . '/news/read_analytic/' ?>">Аналитические нововсти:</a>
+        </h2>
+        <ol>
+            <?php $article_counter = 1; ?>
+            <?php foreach ($this->data['analytic_news'] as $articleObj) : ?>
+                <li class="item-title">
+                    <a href="<?= REL_URL . '/news/read-article/' . $articleObj->id ?>" target="_blank" rel="nofollow">
+                        <?= $articleObj->article ?>
+                    </a>
+                    <br>
+                    <sup>Теги: (
+                        <?php if (isset($this->data['tag_combine'][$articleObj->id])) : ?>
+                            <?php $coma = 0; ?>
+                            <?php foreach ($this->data['tag_combine'][$articleObj->id] as $tag_id => $tag) : ?>
+                                <?= ($coma++) ? ", " : ''?>
+
+                                <a href="<?= REL_URL . '/news/search-by-tag-id/'.$tag_id ?>">
+                                    <?= $tag ?>
+                                </a>
+
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        )</sup>
+                </li>
+                <?php if (++$article_counter > 5) break; ?>
+            <?php endforeach ?>
+            <?php unset($articleObj); ?>
+        </ol>
+    </section>
+<!--    All news -->
     <?php foreach ($this->data['categories'] as $category_id => $category) : ?>
         <div class="col-lg-6">
             <section class="items">

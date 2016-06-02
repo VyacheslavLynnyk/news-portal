@@ -39,6 +39,10 @@
         <div class="container">
             <nav class="blog-nav">
                 <?=Html::a_is_active('news', 'News',['blog-nav-item'])?>
+
+                <form class="navbar-form navbar-right">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form>
                     <?php $user = Auth::getLogin(); ?>
 
                     <?php if ($user != null) {
@@ -50,6 +54,7 @@
                     } else {
                         echo Html::a_is_active('auth/index', '(Вход)',['blog-nav-item pull-right']);
                 } ?>
+
             </nav>
         </div>
     </div>
