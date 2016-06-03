@@ -39,8 +39,6 @@ class NewsController extends Controller
 
     public function read_article()
     {
-
-
         $params = App::getRouter()->getParams();
         if (!isset($params[0]) or (int)$params[0] != $params[0]) {
             Router::redirect('news/index');
@@ -48,27 +46,30 @@ class NewsController extends Controller
         
         $id = (int)$params[0];
         $news = News::find_by_id($id);
-        if (isset($news->is_analytic) && $news->is_analytic == 1) {
-            // FOR Authorized users ONLY
-            if (Auth::checkLoginActive() == false) {
-                Session::setFlash('<a class="text-center" href="'.REL_URL. '/auth/index/' . '">Зарегестрируйтесь пожалуйста </a>');
-                $this->index();
-                return 'news/index';
-                exit;
-                //Router::redirect('auth/index');
-            }
-        }
+
         $category = Categories::find_by_id($news->category_id);
         $images = Images::find_by_news_id($id); // Get only 1 image
 
         $this->data['news'] = $news;
         $this->data['category'] = $category;
         $this->data['images'] = (isset($images)) ? $images->path : null;
+        if (isset($news->is_analytic) && $news->is_analytic == 1) {
+            // FOR Authorized users ONLY
+            if (Auth::checkLoginActive() == false) {
+                Session::setFlash('Для просмотра всего контента 
+                <a class="text-center" href="'.REL_URL. '/auth/index/' . '">
+                    зарегестрируйтесь пожалуйста 
+                </a>');
+
+                //Search 5 sentenses and cut off...
+                preg_match_all('~\w(\.[ |\n]|\![ |\n])~U', $news->text, $out, PREG_OFFSET_CAPTURE);
+                $this->data['news']->text = substr($news->text, 0, $out[1][5][1]) .'...' ;
+            }
+        }
     }
 
     public function read_category()
     {
-
         $params = App::getRouter()->getParams();
         if (!isset($params[0]) or (int)$params[0] != $params[0]) {
             Router::redirect('news/index');
@@ -105,8 +106,10 @@ class NewsController extends Controller
         $this->data['image_count'] = count($this->data['images']);
     }
 
+    // searching Without styles
     public function search_by_tags_id()
     {
+
         $params = App::getRouter()->getParams();
         if (!isset($params[0]) or (int)$params[0] != $params[0]) {
             Router::redirect('news/index');
