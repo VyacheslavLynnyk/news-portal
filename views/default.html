@@ -97,33 +97,47 @@
 
     <script>
 
+        function searchByTagsId(content, tags)
+        {
+            $.get("<?= REL_URL.'/news/search-by-tags-id'?>" + tags,
+                function (data) {
+                    content.empty();
+                    content.prepend(data);
+                });
+        };
+
+        function searcher(request, response)
+        {
+            $.get("<?= REL_URL.'/news/search-by-tag-name/'?>" + request.term,
+                function (data) {
+                    var content = $("#news-content");
+                    if (data == '') {
+                        var content = $("#news-content");
+                        content.empty();
+                        content.prepend('<h2> Не найдено результатов по запросу </h2>');
+                        return 0;
+                    }
+                    var getData = $.parseJSON(data);
+                    var tags = '';
+                    $.each( getData, function( tagId, value ) {
+                        tags += "/" + tagId;
+                    });
+                    searchByTagsId(content, tags);
+                    // I don't know yet why? But must be :) (to resolve function error)
+                    if (typeof response === "function") {
+                        response(getData);
+                    }
+                });
+        };
+
         $("input.searcher").autocomplete({
             delay: 400,
-            source: function (request, response) {
-
-                $.get("<?= REL_URL.'/news/search-by-tag-name/'?>" + request.term,
-                    function (data) {
-                        var content = $("#news-content");
-                        if (data == '') {
-                            var content = $("#news-content");
-                            content.empty();
-                            content.prepend('<h2> Не найдено результатов по запросу </h2>');
-                            return 0;
-                        }
-                        var getData = $.parseJSON(data);
-                        var tags = '';
-                        $.each( getData, function( tagId, value ) {
-                            tags += "/" + tagId;
-                        });
-
-                        $.get("<?= REL_URL.'/news/search-by-tags-id'?>" + tags,
-                            function (data) {
-                                content.empty();
-                                content.prepend(data);
-
-                            });
-                       response(getData);
-                });
+            source: searcher,
+            // Action on select
+            select: function(event, ui) {
+                var request = {};
+                request.term = ui.item.value;
+                searcher(request);
             }
         });
 
