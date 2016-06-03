@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="<?=REL_URL?>/css/adds-css.css">
     <link rel="stylesheet" href="<?=REL_URL?>/css/pagination.css">
 
+
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="<?=REL_URL?>/css/dynamic-edit.css">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]>
 
@@ -38,12 +40,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="<?=REL_URL?>/js/main-js.js"></script>
+    <script src="<?=REL_URL?>/js/jscolor.min.js"></script>
     <script src="<?=REL_URL?>/js/load-avatar.js"></script>
 
 </head>
 
 <body>
-    <div class="blog-masthead">
+    <div id="header--nav" class="blog-masthead">
         <div class="container">
             <nav class="blog-nav">
                 <?=Html::a_is_active('news', 'News',['blog-nav-item'])?>

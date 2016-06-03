@@ -18,6 +18,7 @@ Config::set('default_controller', 'news');
 
 Config::set('default_action', 'index');
 
+
 // Data base config connection
 ActiveRecord\Config::initialize(function ($cfg) {
     $cfg->set_model_directory(ROOT.DS.'models');
@@ -27,3 +28,4 @@ ActiveRecord\Config::initialize(function ($cfg) {
     $cfg->set_default_connection('development');
 
 });
+

@@ -61,9 +61,16 @@ class NewsController extends Controller
                     зарегестрируйтесь пожалуйста 
                 </a>');
 
-                //Search 5 sentenses and cut off...
-                preg_match_all('~\w(\.[ |\n]|\![ |\n])~U', $news->text, $out, PREG_OFFSET_CAPTURE);
-                $this->data['news']->text = substr($news->text, 0, $out[1][5][1]) .'...' ;
+                //Search 5 sentenses and cut off... if less 5 we get 3...
+                preg_match_all('~\w(\.|\!|\?)~U', $news->text, $out, PREG_OFFSET_CAPTURE);
+                if (isset($out[1][4][1])) {
+                    $text_end_position = $out[1][4][1];
+                }elseif (isset($out[1][2][1])) {
+                    $text_end_position = $out[1][2][1];
+                } else {
+                    $text_end_position = 0;
+                }
+                $this->data['news']->text = substr($news->text, 0, $text_end_position) .'...' ;
             }
         }
     }

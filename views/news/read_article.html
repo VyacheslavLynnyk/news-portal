@@ -12,11 +12,11 @@
 
     <div>
         <?php if ($this->data['images'] != null) :?>
-            <img src="<?= REL_URL . $this->data['images'] ?>" class="pull-left img--left"/>
+            <img src="<?= REL_URL . $this->data['images'] ?>" class="pull-left img--left thumbnail"/>
         <?php endif ?>
             <?= $this->data['news']->text ?>
         <?php if (Session::hasFlash() != false) : ?>
-            <div class="alert alert-danger" onclick="$(this).hide();"> <?php Session::flash(); ?></div>
+            <div class="alert alert-danger page-header" onclick="$(this).hide();"> <?php Session::flash(); ?></div>
         <?php endif; ?>
     </div>
 </article>

@@ -21,7 +21,7 @@ class ManagerController extends Controller
 
     public function index()
     {
-        Router::redirect('manager/add-category');
+        //Router::redirect('manager/add-category');
     }
 
     // Add category and Article
@@ -105,7 +105,36 @@ class ManagerController extends Controller
         }
 
         $this->data['categories'] = Categories::find('all');
+    }
+    public function save_color()
+    {
+        $this->setNoLayout(1);
+        $params = App::getRouter()->getParams();
+        if (!isset($params[0])) {
+            Router::redirect('news/index');
+        }
 
+        $color = '#'.strtolower($params[0]);
+
+        preg_match('~#[a-f0-9]{6}~U',$color, $matches);
+        if (isset($matches)) {
+            $css_file = ROOT . '/webroot/css/dynamic-edit.css';
+            $css_content = file_get_contents($css_file);
+            $css_updated = preg_replace('~#[a-f0-9]{6}~U', $matches[0], $css_content);
+            file_put_contents($css_file, $css_updated);
+        }
+        exit;
+    }
+
+    public function get_color() {
+        $this->setNoLayout(1);
+        $css_file = ROOT . '/webroot/css/dynamic-edit.css';
+        $css_content = file_get_contents($css_file);
+        preg_match('~#[a-f0-9]{6}~U',$css_content, $matches);
+        if (isset($matches)) {
+            return $matches[0];
+        }
+        exit;
     }
 
 }

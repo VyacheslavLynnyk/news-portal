@@ -1,0 +1,26 @@
+<div class="row jumbotron">
+    <div class="col-md-12">
+        <h1> Административная панель:</h1>
+    </div>
+    <div class="col-md-4 blog-header">
+            <h2><a href="<?= REL_URL.'/manager/add-category' ?>">Добавить статью</a></h2>
+    </div>
+    <div class="col-md-4 blog-header"></div>
+    <div class="col-md-4 blog-header">
+        <form>
+            <h3>Поменять цвет шапки:</h3>
+            <input class="jscolor" value="<?= '' ?>">
+            <button id="save-color" type="button"> Применить </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#save-color').on('click', function () {
+        var headerColor = $('.jscolor').val();
+        $.get("<?= REL_URL.'/manager/save-color/'?>" + headerColor,
+            function (data) {
+                $('#header--nav').attr('style', 'background-color : #' + headerColor);
+            });
+    });
+</script>
