@@ -17,6 +17,9 @@
             <?php foreach ($this->data['images'] as $img_num => $imageObj) : ?>
             <div class="item  <?= ($img_num == 0) ? ' active' : '' ?> >">
                 <img src="<?= REL_URL . $imageObj->path ?>" alt="image_<?= $imageObj->id?>">
+                <div class="carousel-caption">
+                    <h3><?= News::find_by_id($imageObj->news_id)->article ?></h3>
+                </div>
             </div>
             <?php endforeach; ?>
         </div>
