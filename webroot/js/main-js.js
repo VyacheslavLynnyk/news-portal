@@ -1,6 +1,6 @@
 
 window.onbeforeunload = function() {
-        return "Hey, you're leaving the site. Bye!";
+        return "Вы действительно хотите покинуть сайт?";
 };
 
 $(function() {
