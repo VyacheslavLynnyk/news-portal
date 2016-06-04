@@ -34,8 +34,9 @@
             <li><a href="#1" class="active"> Первая </a></li>
             <li><a id="pagination-prev"> << </a></li>
             <?php for ($pag_page = 1 ; $pag_page <= $page ; $pag_page++ ) : ?>
-                <li><a class="numbers" href="#<?= $pag_page ?>"><?= $pag_page ?></a></li>
+                <li class="numbers"><a href="#<?= $pag_page ?>"><?= $pag_page ?></a></li>
             <?php endfor; ?>
+                </li>
             <li><a id="pagination-next"> >> </a></li>
             <li><a href="#<?= $page ?>">Последняя</a></li>
         </ul>
@@ -44,23 +45,22 @@
 
 <script>
     var lastPage = <?= $page ?>;
-
+    var numbers = $('.numbers');
     var page = window.location.hash;
     page = page.substr(1);
-    if (window.location.hash == '' || page =='1' || page == 'first') {
+    if (window.location.hash == '' || page =='1') {
         page = 1;
         window.location.hash = '1';
     }
-    if (page == 'last') {
-        page = lastPage;
-        window.location.hash = lastPage;
-    }
-//    paginationStart(lastPage);
+    $('#pagination-prev').parent().after('<li class="pag-hider"><a>...</a></li>');
+    numbers.hide();
+    paginationStart(lastPage);
 
     function paginationStart(lastPage)
     {
         var page = window.location.hash;
         page = page.substr(1);
+
         $('#content-pagination').children().fadeOut(300);
         $("#pagination-bar li").removeClass('active');
         $("#pagination-bar a[href='#"+page+"']").parent().addClass('active');
@@ -69,6 +69,11 @@
 
     $(window).bind('hashchange', function() {
         paginationStart(lastPage);
+    });
+
+    $('.pag-hider').on('click', function() {
+        $(this).hide();
+        numbers.fadeIn(1000);
     });
     $('#pagination-prev').on('click', function() {
         var page = window.location.hash;
