@@ -1,0 +1,90 @@
+<script src="<?= REL_URL . '/js/jquery.pagination.js' ?>"></script>
+
+<article>
+    <div class="page-header">
+        <h2>Аналитика:</h2>
+        <!--    CARUSELL -->
+    </div>
+
+    <div id="content-pagination">
+        <?php $article_counter = 0; ?>
+        <?php $page = 0; ?>
+        <?php foreach ( $this->data['analytic_news'] as $article): ?>
+            <?php if ($article_counter % 5 == 0) : ?>
+            <?php ++$page;?>
+                <?php if ($article_counter >= 4) : ?>
+                </div>
+                <?php endif; ?>
+            <div class="page-number-<?= $page ?>" style="display: none">
+            <?php endif; ?>
+
+            <h4>
+                <a href="<?= REL_URL . '/news/read-article/' . $article->id ?>">
+                    <?= $article->article ?>
+                </a>
+            </h4>
+
+            <?php ++$article_counter; ?>
+        <?php endforeach ?>
+            </div>
+
+    </div>
+    <div id="pagination-bar" class="text-center">
+        <ul class="pagination pagination-lg">
+            <li><a href="#first" class="active"> Первая </a></li>
+            <li><a id="pagination-prev"> << </a></li>
+            <?php for ($pag_page = 1 ; $pag_page <= $page ; $pag_page++ ) : ?>
+                <li><a href="#<?= $pag_page ?>"><?= $pag_page ?></a></li>
+            <?php endfor; ?>
+            <li><a id="pagination-next"> >> </a></li>
+            <li><a href="#last">Последняя</a></li>
+        </ul>
+    </div>
+</article>
+
+<script>
+    var lastPage = <?= $page ?>;
+
+    function paginationStart(lastPage)
+    {
+        var page = window.location.hash;
+        page = page.substr(1);
+        if (window.location.hash == '#' && window.location.hash == '#first') {
+            page = 1;
+            window.location.hash = '1';
+        }
+        if (window.location.hash == '#last') {
+            page = lastPage;
+            window.location.hash = lastPage;
+        }
+
+        console.log($(this));
+
+        $('#content-pagination').children().fadeOut(300);
+        $("#pagination-bar li").removeClass('active');
+        $("#pagination-bar a[href='#"+page+"']").parent().addClass('active');
+        $('.page-number-' + page).fadeIn(700);
+    };
+
+    $('#pagination-bar').on('click', paginationStart(lastPage));
+    $('#pagination-prev').on('click', function() {
+        var page = window.location.hash;
+        page = page.substr(1);
+        if ( +page > 1 ) {
+            window.location.hash = page - 1;
+        }
+    });
+    $('#pagination-next').on('click', function() {
+        var page = window.location.hash;
+        page = page.substr(1);
+        if ( +page < lastPage ) {
+            window.location.hash = page + 1;
+        }
+    });
+    window.location.hash = 1;
+    paginationStart(<?= $page ?>);
+
+
+
+
+</script>
