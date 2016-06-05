@@ -55,7 +55,7 @@
                 <?=Html::a_is_active('news', 'News',['blog-nav-item menu-text'])?>
 
                 <div class="dropdown blog-nav-item">
-                    <a role="button" class="menu-text" data-toggle="dropdown"  data-target="#" href="/page.html">
+                    <a role="button" class="menu-text" data-toggle="dropdown"  data-target="#" href="#">
                         Меню <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -89,7 +89,7 @@
 
                 <div class="input-sm navbar-right inner-addon left-addon">
                     <i class="glyphicon glyphicon-search"></i>
-                    <input type="text"  placeholder="Search..." />
+                    <input class="searcher" type="text"  placeholder="Search..." />
                 </div>
                     <?php $user = Auth::getLogin(); ?>
 

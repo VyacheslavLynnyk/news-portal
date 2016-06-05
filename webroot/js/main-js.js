@@ -15,8 +15,4 @@ $(document).mouseleave(function(e) {
 });
 
 
-$(function() {
 
-});/**
- * Created by litter on 04.05.16.
- */

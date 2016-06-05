@@ -44,6 +44,8 @@
 </article>
 
 <script>
+    /*  ---PAGINATION---  */
+
     var lastPage = <?= $page ?>;
     var numbers = $('.numbers');
     var page = window.location.hash;
@@ -52,16 +54,18 @@
         page = 1;
         window.location.hash = '1';
     }
+
     $('#pagination-prev').parent().after('<li class="pag-hider"><a>...</a></li>');
     numbers.hide();
     paginationStart(lastPage);
+
 
     function paginationStart(lastPage)
     {
         var page = window.location.hash;
         page = page.substr(1);
 
-        $('#content-pagination').children().fadeOut(300);
+        $('#content-pagination').children().hide();
         $("#pagination-bar li").removeClass('active');
         $("#pagination-bar a[href='#"+page+"']").parent().addClass('active');
         $('.page-number-' + page).fadeIn(500);
@@ -90,4 +94,6 @@
             window.location.hash = +page + 1;
         }
     });
+    /*  ---PAGINATION---  END*/
+
 </script>

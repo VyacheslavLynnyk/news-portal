@@ -47,42 +47,44 @@
 
 <div id="news" class="page-header">
 <!--    Analytic news-->
-    <section class="items bg-info col-sm-12 col-md-12">
-        <h2>
-            <a href="<?= REL_URL . '/news/read_analytic/' ?>">Аналитические новости:</a>
-        </h2>
-        <ol>
-            <?php $article_counter = 1; ?>
-            <?php foreach ($this->data['analytic_news'] as $articleObj) : ?>
-                <li class="item-title">
-                    <a href="<?= REL_URL . '/news/read-article/' . $articleObj->id ?>" target="_blank" rel="nofollow">
-                        <?= $articleObj->article ?>
-                    </a>
-                    <br>
-                    <sup>Теги: (
-                        <?php if (isset($this->data['tag_combine'][$articleObj->id])) : ?>
-                            <?php $coma = 0; ?>
-                            <?php foreach ($this->data['tag_combine'][$articleObj->id] as $tag_id => $tag) : ?>
-                                <?= ($coma++) ? ", " : ''?>
+    <section class="bg-info">
+        <div class="items">
+            <h2>
+                <a href="<?= REL_URL . '/news/read_analytic/' ?>">Аналитические новости:</a>
+            </h2>
+            <ol>
+                <?php $article_counter = 1; ?>
+                <?php foreach ($this->data['analytic_news'] as $articleObj) : ?>
+                    <li class="item-title1">
+                        <a href="<?= REL_URL . '/news/read-article/' . $articleObj->id ?>" target="_blank" rel="nofollow">
+                            <?= $articleObj->article ?>
+                        </a>
+                        <br>
+                        <sup>Теги: (
+                            <?php if (isset($this->data['tag_combine'][$articleObj->id])) : ?>
+                                <?php $coma = 0; ?>
+                                <?php foreach ($this->data['tag_combine'][$articleObj->id] as $tag_id => $tag) : ?>
+                                    <?= ($coma++) ? ", " : ''?>
 
-                                <a href="<?= REL_URL . '/news/search-by-tag-id/'.$tag_id ?>">
-                                    <?= $tag ?>
-                                </a>
+                                    <a href="<?= REL_URL . '/news/search-by-tag-id/'.$tag_id ?>">
+                                        <?= $tag ?>
+                                    </a>
 
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
 
-                        )</sup>
-                </li>
-                <?php if (++$article_counter > 5) break; ?>
-            <?php endforeach ?>
-            <?php unset($articleObj); ?>
-        </ol>
+                            )</sup>
+                    </li>
+                    <?php if (++$article_counter > 5) break; ?>
+                <?php endforeach ?>
+                <?php unset($articleObj); ?>
+            </ol>
+        </div>
     </section>
 <!--    All news -->
     <?php foreach ($this->data['categories'] as $category_id => $category) : ?>
-        <div class="col-lg-6">
-            <section class="items">
+        <section class="col-lg-6">
+            <div class="items">
                 <h2>
                     <a href="<?= REL_URL . '/news/read-category/' . $category_id ?>"><?= $category ?></a>
                 </h2>
@@ -114,8 +116,8 @@
                     <?php if (++$article_counter > 5) break; ?>
                 <?php endforeach ?>
                 </ol>
-            </section>
-        </div>
+            </div>
+        </section>
     <?php endforeach ?>
 
 
