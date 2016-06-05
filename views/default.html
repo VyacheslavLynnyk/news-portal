@@ -45,13 +45,17 @@
 </head>
 
 <body>
+
     <div id="header--nav" class="blog-masthead">
         <div class="container">
             <nav class="blog-nav">
-                <?=Html::a_is_active('news', 'News',['blog-nav-item'])?>
+                <div class="blog-nav-item navbar-brand-my">
+                    <a>News Portal</a>
+                </div>
+                <?=Html::a_is_active('news', 'News',['blog-nav-item menu-text'])?>
 
                 <div class="dropdown blog-nav-item">
-                    <a role="button" data-toggle="dropdown"  data-target="#" href="/page.html">
+                    <a role="button" class="menu-text" data-toggle="dropdown"  data-target="#" href="/page.html">
                         Меню <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -77,28 +81,33 @@
                         </li>
                     </ul>
                 </div>
+<!--DROP DOWN END-->
+<!--                <div class="input-sm navbar-right">-->
+<!--                    <input type="text" class="searcher" placeholder="Search...">-->
+<!--                    <span class="glyphicon glyphicon-search"></span>-->
+<!--                </div>-->
 
-                <div class="navbar-form navbar-right">
-                    <input type="text" class="form-control searcher" placeholder="Search...">
+                <div class="input-sm navbar-right inner-addon left-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                    <input type="text"  placeholder="Search..." />
                 </div>
-
                     <?php $user = Auth::getLogin(); ?>
 
                     <?php if ($user != null) {
                         $role = Auth::getRole();
                         if (isset($role) && $role == 'admin') {
-                            echo Html::a_is_active('manager', 'Manager', ['blog-nav-item']);
+                            echo Html::a_is_active('manager', 'Manager', ['blog-nav-item menu-text']);
                         }
-                        echo Html::a_is_active('auth/logout', Auth::getLogin().' (Выйти)',['blog-nav-item pull-right']);
+                        echo Html::a_is_active('auth/logout', Auth::getLogin().' (Выйти)',['blog-nav-item pull-right menu-text']);
                     } else {
-                        echo Html::a_is_active('auth/index', '(Вход)',['blog-nav-item pull-right']);
+                        echo Html::a_is_active('auth/index', 'Вход',['blog-nav-item pull-right menu-text']);
                 } ?>
 
             </nav>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal subsctibe -->
     <div class="modal fade" id="subscribe" role="dialog">
         <div class="modal-dialog">
 
@@ -108,40 +117,92 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Подписаться на рассылку</h4>
                 </div>
-                <div class="modal-body">
-                    <form class="form-inline">
+                <form>
+                    <div class="modal-body">
                         <div class="form-group">
                             <label>Ваше Имя:</label>
-                            <input type="text" class="form-control"  placeholder="Вася">
+                            <input type="text" class="form-control"  placeholder="Вася" autofocus>
                         </div>
                         <div class="form-group">
                             <label>Ваш Email:</label>
                             <input type="email" class="form-control" placeholder="jane.doe@example.com">
                         </div>
-                        <div class="form-group">
-                            <div class="page-header">
-                                <button type="submit" class="btn btn-success">Подписаться</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Подписаться</button>
+                    </div>
+                </form>
             </div>
 
         </div>
     </div>
 
-    <div id="news-content" class="container">
-        <?= $data['content'] ?>
+
+            <div class="container-fluid">
+                <div  class="row">
+<!--                    adds on left/top panel-->
+                    <div class="col-xs-12 col-sm-12 col-md-2 left-panel">
+                            <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                                <a class="main-add" href="">рекламный текст со скидкой</a>
+                            </div>
+
+                            <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                                <a class="main-add" href="">рекламный текст со скидкой</a>
+                            </div>
+
+                            <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                                <a class="main-add" href="">рекламный текст со скидкой</a>
+                            </div>
+
+                            <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                                <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                                <a class="main-add" href="">рекламный текст со скидкой</a>
+                            </div>
+                    </div>
+                    <div id="news-content" class="col-xs-12 col-sm-12 col-md-8">
+                        <?= $data['content'] ?>
+                    </div>
+<!--                    adds on right/bottom panel-->
+                    <div class="col-xs-12 col-sm-12 col-md-2 right-panel">
+                        <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                            <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                            <a class="main-add" href="">рекламный текст со скидкой</a>
+                        </div>
+
+                        <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                            <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                            <a class="main-add" href="">рекламный текст со скидкой</a>
+                        </div>
+
+                        <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                            <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                            <a class="main-add" href="">рекламный текст со скидкой</a>
+                        </div>
+
+                        <div class="thumbnail text-center col-xs-3 col-sm-3 col-md-12">
+                            <img src="" class="img-thumbnail" style="width: 100px; height: 100px" alt="">
+                            <a class="main-add" href="">рекламный текст со скидкой</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="col-md-4"></div>
     </div>
 
+
     <script>
+/***         SUBSCRIBE          ***/
         setTimeout(function () {
             $('#subscribe').modal('show');
         }, 15000);
-
+/***        Searchbox           ***/
         function searchByTagsId(content, tags)
         {
             $.get("<?= REL_URL.'/news/search-by-tags-id'?>" + tags,

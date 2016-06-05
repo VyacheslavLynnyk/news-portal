@@ -1,20 +1,22 @@
+//
+// window.onbeforeunload = function() {
+//         return "Вы действительно хотите покинуть сайт?";
+// };
 
-window.onbeforeunload = function() {
-        return "Вы действительно хотите покинуть сайт?";
-};
+var canGoOut = 0;
+$(document).mouseleave(function(e) {
+        if (canGoOut != 1) {
+                var msg = 'Вы действительно хотите покинуть сайт?';
+                var res = confirm(msg);
+                if (res) {
+                        canGoOut = '1';
+                }
+        }
+});
+
 
 $(function() {
 
-    // var closeWind = 1;
-    //     $('body').mouseleave(function () {
-    //         if (closeWind == 1) {
-    //             if (confirm("Close Window?")) {
-    //                 closeWind = 0;
-    //             }
-    //         }
-    //     });
-    //
-    // $('#mail').delay(15000).fadeIn(1000);
 });/**
  * Created by litter on 04.05.16.
  */

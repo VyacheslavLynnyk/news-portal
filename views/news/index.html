@@ -1,4 +1,5 @@
-<div class="jumbotron">
+<div  class="jumbotron">
+<!--    class="jumbotron"-->
 <!--    CARUSELL -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
@@ -18,7 +19,10 @@
             <div class="item  <?= ($img_num == 0) ? ' active' : '' ?> >">
                 <img src="<?= REL_URL . $imageObj->path ?>" alt="image_<?= $imageObj->id?>">
                 <div class="carousel-caption">
-                    <h3><?= News::find_by_id($imageObj->news_id)->article ?></h3>
+                    <h3><a href="<?= REL_URL . '/news/read-article/' . $imageObj->news_id ?>">
+                            <?= News::find_by_id($imageObj->news_id)->article ?>
+                        </a>
+                    </h3>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -41,9 +45,9 @@
     <div class="alert alert-danger" onclick="$(this).hide();"> <?php Session::flash(); ?></div>
 <?php endif; ?>
 
-<div id="news" class="row marketing">
+<div id="news" class="page-header">
 <!--    Analytic news-->
-    <section class="items bg-info container">
+    <section class="items bg-info col-sm-12 col-md-12">
         <h2>
             <a href="<?= REL_URL . '/news/read_analytic/' ?>">Аналитические новости:</a>
         </h2>

@@ -57,6 +57,10 @@ h1, h2, h3, p {
     box-shadow: 0px 2px 100px #315faa;
 }
 
+#registration label {
+    color: #bbffff;
+}
+
 .container h1 {
     margin-top: 1em;
     font-size: 2.5em ;
@@ -133,4 +137,72 @@ h1, h2, h3, p {
     -webkit-border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
+}
+
+/****  **/
+.carousel-caption a {
+    color: white;
+    text-shadow: 2px 4px 5px black;
+}
+
+/** **/
+.navbar-brand-my {
+    position: relative;
+    background-color: inherit;
+    width: 200px;
+}
+.navbar-brand-my > a {
+    position: absolute;
+    top: -5px;
+    left: 20px;
+    font-size: 2em;
+
+    text-shadow: 2px 3px 5px black;
+    text-shadow: 3px 5px 10px black;
+}
+
+#header--nav  a.menu-text {
+    text-shadow: 0px 0px 1px white;
+}
+
+#header--nav input, #header--nav .glyphicon {
+    margin-top: 4px;
+}
+#header--nav input {
+    padding-top: 0;
+    padding-left: 20px;
+    padding-right: 3px;
+    border-radius: 4px;
+}
+
+/* enable absolute positioning */
+.inner-addon {
+    position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  5px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+/* *** */
+
+.main-add {
+    font-size: 0.8em;
+}
+
+.left-panel .thumbnail, .right-panel .thumbnail {
+    border: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
